@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 import 'package:scientific_calculator/presentation/Home/const/calculate_operators.dart';
 
 class Calculations {
@@ -8,9 +9,32 @@ class Calculations {
 
   Calculations({required this.calc});
 
-  void appcalculations(String text) {
+  Future<double> appcalculations(var text) async {
+    double result = 0;
+
     switch (calc) {
       case CalculatorOperators.ADD:
+        Parser p = Parser();
+        Expression exp = p.parse(text!);
+
+        ContextModel cm = ContextModel();
+        result = exp.evaluate(EvaluationType.REAL, cm);
+
+        break;
+
+      case CalculatorOperators.ANS:
+        result = text!;
+
+        break;
+      default:
+    }
+    return result;
+  }
+}
+
+
+
+
         // var sum = 0;
         // double result = 0.0;
 
@@ -50,8 +74,3 @@ class Calculations {
         //     sum += num;
         //   }
         // }
-        break;
-      default:
-    }
-  }
-}
