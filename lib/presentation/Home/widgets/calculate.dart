@@ -9,13 +9,17 @@ class Calculations {
 
   Calculations({required this.calc});
 
-  Future<double> appcalculations(var text) async {
+  Future<double> appcalculations(String text) async {
     double result = 0;
 
     switch (calc) {
       case CalculatorOperators.ADD:
         Parser p = Parser();
-        Expression exp = p.parse(text!);
+
+        text = text.replaceAll('x', '*');
+        text = text.replaceAll('%', '%10');
+
+        Expression exp = p.parse(text);
 
         ContextModel cm = ContextModel();
         result = exp.evaluate(EvaluationType.REAL, cm);
@@ -23,7 +27,7 @@ class Calculations {
         break;
 
       case CalculatorOperators.ANS:
-        result = text!;
+        // result = text;
 
         break;
       default:

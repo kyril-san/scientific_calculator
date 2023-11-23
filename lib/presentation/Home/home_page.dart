@@ -16,8 +16,8 @@ class HomePage extends StatefulWidget {
 
 late TextEditingController _inputcontroller;
 Calculations calcs = Calculations(calc: CalculatorOperators.ADD);
-int finalvalue = 0;
-int savedanswer = 0;
+double finalvalue = 0;
+double savedanswer = 0;
 bool isscreenhorizontal = false;
 
 class _HomePageState extends State<HomePage> {
@@ -80,13 +80,13 @@ class _HomePageState extends State<HomePage> {
 
   //* TO Display the Answer on the Screen
   void showAnswerOnScreen(
-    String? text,
+    String text,
   ) async {
     if (!_inputcontroller.text.contains('Ans')) {
       var result = await calcs.appcalculations(text);
 
       setState(() {
-        finalvalue = result.toInt();
+        finalvalue = result;
         savedanswer = finalvalue;
       });
     } else {
@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 // height: 150,
                 // color: Colors.white,
-                padding: EdgeInsets.only(right: 15),
+                padding: EdgeInsets.only(right: 20),
                 child: Column(
                   children: [
                     TextFormField(
@@ -209,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                   //! Scientific Components
                   isscreenhorizontal
                       ? Expanded(
-                          child: Container(
+                          child: SizedBox(
                             height: 300,
                             // color: Colors.red,
                             child: Column(
@@ -283,7 +283,8 @@ class _HomePageState extends State<HomePage> {
                   //! Number Pads with Basic Components
 
                   Expanded(
-                    child: Column(
+                    child: Flex(
+                      direction: Axis.vertical,
                       mainAxisAlignment: isscreenhorizontal
                           ? MainAxisAlignment.start
                           : MainAxisAlignment.end,
@@ -390,7 +391,9 @@ class _HomePageState extends State<HomePage> {
                               numPadButtonsComponents(
                                   horiz: isscreenhorizontal,
                                   symbol: equal,
-                                  ontap: () {})
+                                  ontap: () {
+                                    showAnswerOnScreen(_inputcontroller.text);
+                                  })
                             ],
                           ),
                         ),
